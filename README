@@ -1,0 +1,42 @@
+###################################################################################################
+####################################   Guide d'utilisation   ######################################
+###################################################################################################
+
+
+
+############################### Etapes de préparatiuon de la carte ################################
+
+1. Ouvrir un terminal et se rendre dans le dossier où se trouve bourse.c, io.c et Makefile.
+2. Lancer la commande make
+3. Insérer la carte dans le programmateur puis lancer la commande make progcarte
+4. Insérer la carte dans le lecteur
+5. Lancer la commande scat (ou scriptor)
+6. Lancer la commande reset
+7. Introduire une clef
+8. Tester la clef pour accéder à toutes les commandes
+
+##################################### Les différentes commandes ###################################
+
+- CLA 80
+	- INS 00 ==> affichage de la version du programme		## P3 doit être égal à 4
+	- INS 01 ==> introduction de la clef                            ## P3 doit être égal à 16 soit 0x10
+	- INS 02 ==> vérification de la clef et déverrouillage          ## P3 doit être égal à 2
+		+ Le retour de cette commande est constitué de deux octets:
+			++ Le premier indique si la clef est valide (1) ou non (0)
+			++ Le second indique le nombre de tentatives restantes pour insérer une clef valide
+- CLA 81
+	- INS 02 ==> personnalisation du propriétaire
+	- INS 03 ==> affichage du propriétaire
+	- INS 04 ==> affichage du solde             			## P3 doit être égal à 02
+	- INS 05 ==> crédit                         			## P3 doit être égal à 02
+	- INS 06 ==> débit                         			## P3 doit être égal à 02
+	
+	
+########################################## Codes d'erreur #########################################
+
+- 61 00 ==> sortie de l'intervalle autorisé pour le solde (solde insuffisant pour un débit, ou crédit trop important)
+- 6c xx ==> P3 incorrect, P3 attendu : xx
+- 6d 00 ==> instruction inconnue
+- 6e 00 ==> classe inconnue
+- 91 BE ==> résultat en dehors des bornes
+
